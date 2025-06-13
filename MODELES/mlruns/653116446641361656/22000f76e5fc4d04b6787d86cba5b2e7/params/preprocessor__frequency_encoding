@@ -1,0 +1,1 @@
+FrequencyEncoder(columns=['Offer', 'Internet Type', 'City'])

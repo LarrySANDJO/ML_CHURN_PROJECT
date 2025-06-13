@@ -1,0 +1,4 @@
+OutlierClipper(columns=['Avg Monthly GB Download', 'Tenure in Months',
+                        'Number of Referrals', 'Number of Dependents', 'Age',
+                        'New_monthly_charge', 'Ratio_refund',
+                        'Extra_charges_ratio', 'total_extra_services'])

@@ -1,0 +1,16 @@
+artifact_uri: file:///E:/ISE2_ME/SEMESTRE 2/Machine learning 2/PROJET ML2/mlruns/653116446641361656/0977d44153114aa793182735c461160d/artifacts
+deleted_time: 1749739507713
+end_time: 1749737510992
+entry_point_name: ''
+experiment_id: '653116446641361656'
+lifecycle_stage: deleted
+run_id: 0977d44153114aa793182735c461160d
+run_name: 'Run 1.0 : XGB'
+run_uuid: 0977d44153114aa793182735c461160d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749737510324
+status: 4
+tags: []
+user_id: DELL

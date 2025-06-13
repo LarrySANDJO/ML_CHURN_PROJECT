@@ -1,0 +1,52 @@
+artifact_path: model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.9
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+is_signature_from_type_hint: false
+mlflow_version: 2.22.1
+model_size_bytes: 337997
+model_uuid: b4d7589b8dd845cf9e480bb34db485ed
+prompts: null
+run_id: c777c241c6f84832aa0ce18e200a19a3
+signature:
+  inputs: '[{"type": "string", "name": "Gender", "required": true}, {"type": "long",
+    "name": "Age", "required": true}, {"type": "string", "name": "Married", "required":
+    true}, {"type": "long", "name": "Number of Dependents", "required": true}, {"type":
+    "string", "name": "City", "required": true}, {"type": "double", "name": "Latitude",
+    "required": true}, {"type": "double", "name": "Longitude", "required": true},
+    {"type": "long", "name": "Number of Referrals", "required": true}, {"type": "long",
+    "name": "Tenure in Months", "required": true}, {"type": "string", "name": "Offer",
+    "required": false}, {"type": "string", "name": "Phone Service", "required": true},
+    {"type": "double", "name": "Avg Monthly Long Distance Charges", "required": true},
+    {"type": "string", "name": "Multiple Lines", "required": true}, {"type": "string",
+    "name": "Internet Service", "required": true}, {"type": "string", "name": "Internet
+    Type", "required": false}, {"type": "double", "name": "Avg Monthly GB Download",
+    "required": false}, {"type": "string", "name": "Online Security", "required":
+    false}, {"type": "string", "name": "Online Backup", "required": false}, {"type":
+    "string", "name": "Device Protection Plan", "required": false}, {"type": "string",
+    "name": "Premium Tech Support", "required": false}, {"type": "string", "name":
+    "Streaming TV", "required": false}, {"type": "string", "name": "Streaming Movies",
+    "required": false}, {"type": "string", "name": "Streaming Music", "required":
+    false}, {"type": "string", "name": "Unlimited Data", "required": false}, {"type":
+    "string", "name": "Contract", "required": true}, {"type": "string", "name": "Paperless
+    Billing", "required": true}, {"type": "string", "name": "Payment Method", "required":
+    true}, {"type": "double", "name": "Monthly Charge", "required": true}, {"type":
+    "double", "name": "Total Charges", "required": true}, {"type": "double", "name":
+    "Total Refunds", "required": true}, {"type": "long", "name": "Total Extra Data
+    Charges", "required": true}, {"type": "double", "name": "Total Long Distance Charges",
+    "required": true}, {"type": "double", "name": "Total Revenue", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-06-12 13:20:24.966185'
