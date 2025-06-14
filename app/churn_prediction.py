@@ -58,7 +58,7 @@ def churn_prediction(df):
                 with col4:
                     Internet_Service = st.radio("Internet Service*", options=['Yes', 'No'], horizontal=True)
                     if Internet_Service == 'Yes':
-                        Internet_Type = st.selectbox("Internet Type*", options=['DSL', 'Fiber Optic', 'Cable'])
+                        Internet_Type = st.selectbox("Internet Type*", options=['DSL', 'Fiber Optic', 'Cable', 'No'])
                         Avg_Monthly_GB_Download = st.slider(
                             "Avg Monthly GB Download",
                             min_value=0,
@@ -190,96 +190,255 @@ def churn_prediction(df):
     
     form_data = prediction_form(df)
     
-    def show_prediction_form(form):
-        if form is not None:
+    def show_prediction_form(form_data):
+        if form_data is not None:
             # Vérification de l'API
             if not check_api_status():
-                st.error("L'API de prédiction n'est pas disponible")
+                st.error("🚨 L'API de prédiction n'est pas disponible")
                 return
             
             # Prédiction
-            with st.spinner("Prédiction en cours..."):
-                prediction, error = predict_single_customer(form.to_dict(orient='records')[0])
+            with st.spinner("🔍 Analyse du profil client en cours..."):
+                prediction, error = predict_single_customer(form_data.to_dict(orient='records')[0])
                 
             if error:
-                st.error(f"Erreur: {error}")
+                st.error(f"❌ Erreur: {error}")
             else:
-                # Affichage des résultats
-                st.success("Prédiction terminée !")
+                proba = prediction['probability']
+                prediction_class = prediction['prediction']
                 
-                # Création des colonnes pour l'affichage
-                col1, col2 = st.columns(2)
+                # ============= SECTION VISUALISATION =============
+                st.success("✅ Analyse terminée avec succès")
+                st.markdown("---")
                 
-                with col1:
-                    st.metric("Probabilité de churn", 
-                            f"{prediction['probability']:.1%}",
-                            delta_color="inverse")
+                # Jauge de probabilité
+                st.markdown(f"### Probabilité de churn: {proba:.1%}")
+                gauge_html = f"""
+                <div style="width: 100%; background: #f0f2f6; border-radius: 10px; padding: 3px; margin: 10px 0;">
+                    <div style="width: {proba*100}%; height: 20px; background: linear-gradient(90deg, #2ecc71 {max(0, 50-proba*100)}%, #f39c12 {max(0, 70-proba*100)}%, #e74c3c {max(0, 90-proba*100)}%); border-radius: 8px; transition: width 0.5s ease;">
+                    </div>
+                </div>
+                """
+                st.markdown(gauge_html, unsafe_allow_html=True)
+                
+                # ============= ALERTE DE RISQUE =============
+                risk_level = ""
+                alert_type = ""
+                recommendations = []
+                
+                if proba < 0.3:
+                    risk_level = "Risque Faible"
+                    alert_type = "success"
+                    recommendations = [
+                        "Maintenir la relation client standard",
+                        "Proposer des offres de fidélisation basiques"
+                    ]
+                elif proba < 0.6:
+                    risk_level = "Risque Modéré"
+                    alert_type = "warning"
+                    recommendations = [
+                        "Contacter le client pour feedback",
+                        "Proposer une offre spéciale",
+                        "Vérifier la satisfaction sur les services utilisés"
+                    ]
+                elif proba < 0.8:
+                    risk_level = "Haut Risque"
+                    alert_type = "error"
+                    recommendations = [
+                        "Action immédiate requise",
+                        "Offrir un entretien personnalisé",
+                        "Évaluer les raisons potentielles de mécontentement"
+                    ]
+                else:
+                    risk_level = "Risque Critique"
+                    alert_type = "error"
+                    recommendations = [
+                        "Intervention urgente du service client",
+                        "Offre exceptionnelle de rétention",
+                        "Analyse approfondie des motifs de churn"
+                    ]
+                
+                st.markdown(f"""
+                <div class="alert alert-{alert_type}" style="padding: 15px; border-radius: 5px; background: {'#d4edda' if alert_type == 'success' else '#fff3cd' if alert_type == 'warning' else '#f8d7da'}; color: {'#155724' if alert_type == 'success' else '#856404' if alert_type == 'warning' else '#721c24'}; border: 1px solid {'#c3e6cb' if alert_type == 'success' else '#ffeeba' if alert_type == 'warning' else '#f5c6cb'}; margin: 10px 0;">
+                    <strong>Niveau de risque:</strong> {risk_level}
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # ============= RECOMMANDATIONS PERSONNALISÉES =============
+                st.markdown("### 🔍 Recommandations spécifiques")
+                
+                # Recommandations basées sur les caractéristiques du client
+                if form_data['Internet_Service'].iloc[0] == 'Yes' and form_data['Internet_Type'].iloc[0] == 'Fiber Optic':
+                    recommendations.append("Vérifier la qualité de la connexion fibre")
+                
+                if form_data['Contract'].iloc[0] == 'Month-to-Month':
+                    recommendations.append("Proposer un contrat à engagement pour réduire le risque")
+                
+                if form_data['Number_of_Referrals'].iloc[0] > 3:
+                    recommendations.append("Mettre en avant le programme de parrainage")
+                
+                # Affichage des recommandations
+                for i, rec in enumerate(recommendations, 1):
+                    st.markdown(f"""
+                    <div style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-left: 4px solid #1914B3; border-radius: 0 4px 4px 0;">
+                        <span style="font-weight: bold; color: #1914B3;">{i}.</span> {rec}
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                # ============= ACTIONS IMMÉDIATES =============
+                if prediction_class == 1:
+                    st.markdown("---")
+                    st.markdown("### 🚀 Actions immédiates")
                     
-                with col2:
-                    st.metric("Recommandation",
-                            "Action requise" if prediction['prediction'] == 1 else "Surveillance",
-                            delta="⚠️" if prediction['prediction'] == 1 else "✅")
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if st.button("📞 Planifier un appel préventif", use_container_width=True):
+                            st.success("Appel programmé dans le CRM")
+                    
+                    with col2:
+                        if st.button("✉️ Envoyer une offre spéciale", use_container_width=True):
+                            st.success("Offre envoyée au client")
                 
-                # Détails supplémentaires
-                with st.expander("Détails techniques"):
+                # ============= DONNÉES TECHNIQUES =============
+                with st.expander("🔧 Détails techniques"):
                     st.json(prediction)
-                    
-                # Bouton d'action
-                if prediction['prediction'] == 1:
-                    st.warning("Ce client présente un risque élevé de churn")
-                    if st.button("📞 Planifier un appel préventif"):
-                        st.success("Action enregistrée dans le CRM")
-    
+
+    # Utilisation
     show_prediction_form(form_data)
                         
     def show_batch_prediction():
-        st.header("Prédiction par lot (CSV)")
-        uploaded_file = st.file_uploader("Téléverser un fichier CSV", type=["csv"])
+        st.header("📊 Prédiction par lot (CSV)")
+        
+        # Section de téléchargement
+        with st.expander("ℹ️ Instructions", expanded=True):
+            st.markdown("""
+            **Format requis :**
+            - Le fichier CSV doit contenir les mêmes colonnes que le formulaire individuel
+            - Format des colonnes : `Customer_ID, Gender, Age, Married,...` (respecter la casse)
+            - Taille maximale : 100MB
+            """)
+        
+        uploaded_file = st.file_uploader("Déposer votre fichier CSV ici", type=["csv"], 
+                                    accept_multiple_files=False)
         
         if uploaded_file is not None:
             # Vérification API
             if not check_api_status():
-                st.error("L'API de prédiction n'est pas disponible")
+                st.error("🚨 L'API de prédiction n'est pas disponible")
                 return
             
             # Prévisualisation
-            df_preview = pd.read_csv(uploaded_file)
-            st.write("Aperçu des données :")
-            st.dataframe(df_preview.head(3))
-            
-            if st.button("Lancer les prédictions"):
-                with st.spinner("Analyse en cours..."):
-                    # Envoi du fichier
-                    results, error = upload_csv_for_prediction(uploaded_file.getvalue())
+            try:
+                df_preview = pd.read_csv(uploaded_file)
+                
+                with st.expander("👀 Aperçu des données (5 premières lignes)", expanded=True):
+                    st.dataframe(df_preview.head(), use_container_width=True)
                     
-                    if error:
-                        st.error(f"Erreur: {error}")
-                    else:
-                        st.success(f"Analyse terminée pour {len(results)} clients")
+                    # Validation des colonnes
+                    required_columns = ['Gender', 'Age', 'Contract', 'Internet_Service']
+                    missing_cols = [col for col in required_columns if col not in df_preview.columns]
+                    
+                    if missing_cols:
+                        st.error(f"Colonnes obligatoires manquantes : {', '.join(missing_cols)}")
+                        return
+                    
+                # Bouton de lancement
+                if st.button("🚀 Lancer l'analyse prédictive", type="primary"):
+                    with st.spinner(f"🔍 Analyse de {len(df_preview)} clients en cours..."):
+                        results, error = upload_csv_for_prediction(uploaded_file.getvalue())
                         
-                        # Téléchargement des résultats
-                        st.download_button(
-                            label="📥 Télécharger les résultats",
-                            data=pd.DataFrame(results).to_csv(index=False),
-                            file_name="predictions_results.csv",
-                            mime="text/csv"
-                        )
-                        
-                        # Visualisation
-                        df_results = pd.DataFrame(results)
-                        
-                        # KPI globaux
-                        churn_rate = df_results['prediction'].mean()
-                        st.metric("Taux de churn prédit", f"{churn_rate:.1%}")
-                        
-                        # Histogramme des probabilités
-                        fig = px.histogram(df_results, 
-                                        x="probability",
-                                        nbins=20,
-                                        color_discrete_sequence=['#1914B3'])
-                        st.plotly_chart(fig)
-    
+                        if error:
+                            st.error(f"❌ {error}")
+                        else:
+                            df_results = pd.DataFrame(results)
+                            st.success(f"✅ Analyse terminée pour {len(df_results)} clients")
+                            
+                            # ============= SECTION RÉSULTATS =============
+                            st.markdown("---")
+                            st.subheader("📋 Résultats détaillés par client")
+                            
+                            # Configuration de l'affichage
+                            st.markdown("""
+                            <style>
+                                .dataframe td {
+                                    font-size: 13px;
+                                }
+                                .positive {
+                                    color: #e74c3c;
+                                    font-weight: bold;
+                                }
+                                .negative {
+                                    color: #2ecc71;
+                                }
+                            </style>
+                            """, unsafe_allow_html=True)
+                            
+                            # Fonction de formatage conditionnel
+                            def color_proba(val):
+                                color = '#e74c3c' if val > 0.7 else '#f39c12' if val > 0.5 else '#2ecc71'
+                                return f'color: {color}; font-weight: bold'
+                            
+                            # Affichage du dataframe interactif
+                            st.dataframe(
+                                df_results.style
+                                    .format({
+                                        'probability': '{:.1%}',
+                                        'Monthly_Charge': '${:.2f}'
+                                    })
+                                    .applymap(color_proba, subset=['probability'])
+                                    .bar(subset=['probability'], color='#1914B3')
+                                    .set_properties(**{
+                                        'background-color': '#f8f9fa',
+                                        'border': '1px solid #ddd'
+                                    }),
+                                use_container_width=True,
+                                height=500
+                            )
+                            
+                            # Options d'export
+                            st.download_button(
+                                label="📥 Exporter les résultats complets",
+                                data=df_results.to_csv(index=False),
+                                file_name="churn_predictions.csv",
+                                mime="text/csv"
+                            )
+                            
+                            # ============= ANALYSE GLOBALE =============
+                            st.markdown("---")
+                            st.subheader("📈 Analyse globale")
+                            
+                            # KPIs
+                            kpi1, kpi2, kpi3 = st.columns(3)
+                            with kpi1:
+                                churn_rate = df_results['prediction'].mean()
+                                st.metric("Taux de churn", f"{churn_rate:.1%}")
+                            
+                            with kpi2:
+                                high_risk = (df_results['probability'] > 0.7).mean()
+                                st.metric("Clients à haut risque", f"{high_risk:.1%}")
+                            
+                            with kpi3:
+                                avg_proba = df_results['probability'].mean()
+                                st.metric("Probabilité moyenne", f"{avg_proba:.1%}")
+                            
+                            # Visualisations
+                            tab1, tab2 = st.tabs(["Distribution", "Segmentation"])
+                            
+                            with tab1:
+                                fig = px.histogram(df_results, x="probability", nbins=20,
+                                                title="Distribution des probabilités de churn",
+                                                color_discrete_sequence=['#1914B3'])
+                                fig.add_vline(x=0.7, line_dash="dash", line_color="red")
+                                st.plotly_chart(fig, use_container_width=True)
+                            
+                            with tab2:
+                                fig = px.box(df_results, x="Contract", y="probability",
+                                        color="Internet_Service",
+                                        title="Probabilité par type de contrat")
+                                st.plotly_chart(fig, use_container_width=True)
+            
+            except Exception as e:
+                st.error(f"Erreur de lecture du fichier : {str(e)}")
+
+    # Utilisation
     show_batch_prediction()
-        
-    
-    
