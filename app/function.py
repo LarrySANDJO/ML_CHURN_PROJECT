@@ -26,105 +26,123 @@ def get_text(key):
 
 def afficher_guide_utilisateur():
     # CSS personnalisé pour l'expander
-    
-    
-    # CSS personnalisé pour modifier l'apparence de l'expander
     st.markdown("""
     <style>
     .streamlit-expanderHeader {
-        background-color: #1914B3;
-        color: white;
+        background-color: #1914B3 !important;
+        color: white !important;
         font-weight: bold;
+        font-size: 20 !important;
         border-radius: 5px;
         padding: 10px;
     }
     </style>
     """, unsafe_allow_html=True)
-    with st.expander("Guide d'utilisation"):
-
+    
+    with st.expander("Guide d'utilisation complet"):
         st.markdown("""
-        # Guide Technique - Dashboard d'Analyse d'Attrition Client
+        # Guide Utilisateur - Application d'Analyse Client et Prédiction de Churn
 
-        Ce document présente un briefing du calcul des indicateurs et la construction des visualisations du dashboard.
+        Cette application permet d'analyser le comportement des clients et de prédire leur risque de résiliation (churn).
 
-        ## Indicateurs de Performance (KPIs)
+        ## Pages de l'Application
 
-        - **Taux de Churn actuel** : Pourcentage de clients perdus sur la période de 2 mois étudiée
-        - **Taux d'actifs** : Pourcentage de clients toujours présents dans la base
-        - **Ancienneté moyenne** : Durée moyenne d'engagement des clients (en mois)
-        - **Taux de plaintes** : Proportion de clients ayant déposé une réclamation
+        ### 1. Page d'Analyse des Profils Clients
 
-        ## Segmentation Client
+        Cette page fournit une analyse détaillée de la base client avec des visualisations interactives.
 
-        - **Méthode** : Clustering basé sur les dépenses des 2 premiers mois de 2017
-        - **Segments** :
-        - Dépense "Faible" : < 2 332,63 (clients peu engageants)
-        - Dépense "Moyenne" : 2 332,63 ≤ dépenses < 9 969,21 (clients modérément actifs)
-        - Dépense "Élevé" : ≥ 9 969,21 (clients hautement rentables)
+        **Indicateurs Clés (KPIs):**
+        - **Nombre total de clients** : Volume de clients dans la sélection
+        - **Âge moyen** : Âge moyen des clients
+        - **Ancienneté moyenne** : Durée moyenne de relation avec les clients (en mois)
+        - **Revenu total généré** : Chiffre d'affaires global
+        - **Revenu minimal/maximal** : Fourchettes de revenus clients
 
-        ## Visualisations Analytiques
+        **Cartographie:**
+        - Carte géographique interactive montrant la répartition géographique des clients
 
-        ### Page d'accueil (KPIs)
+        **Indicateurs de Pourcentage:**
+        - **Pourcentage dans le revenu total** : Contribution des clients sélectionnés
+        - **Services téléphoniques** : Taux d'adoption des services voix
+        - **Services internet** : Taux de pénétration des services data
+        - **Services premium** : Proportion utilisant au moins un service optionnel
 
-        1. **Segmentation Client** 
-        - Données : Pourcentage de clients dans chaque segment de dépense
+        **Visualisations Analytiques:**
+        1. **Démographie Client**
+        - Répartition par sexe (diagramme en donut)
+        - Pyramide des âges
+        - Statut marital
+        - Nombre de personnes à charge
 
-        2. **Churn par segment**
-        - Données : Pourcentage de churn par segment de dépense
+        2. **Comportement Client**
+        - Types de contrats souscrits
+        - Nombre de parrainages (références)
+        - Méthodes de paiement préférées
+        - Offres souscrites
 
-        3. **Churn et réclamations**
-        - Données : Taux de churn par niveau de plaintes
-        - Segmentation :
-            - 0 : Aucune plainte
-            - 1-3 : Faible plainte
-            - >3 : Niveau élevé
+        3. **Nuage de mots** des caractéristiques clients
 
-        4. **Churn et ancienneté**
-        - Données : Taux de churn par durée d'ancienneté
-        - Segmentation :
-            - ≤12 mois : Nouveau
-            - ≤36 mois : Établi
-            - >36 mois : Fidèle
+        ### 2. Page de Prédiction de Churn
 
-        5. **Concurrents préférés**
-        - Données : Répartition des clients partis vers chaque concurrent
+        Cette page permet de prédire le risque de départ des clients via deux méthodes:
 
-        6. **Rentabilité des réseaux**
-        - Données : Contribution de chaque type de réseau au chiffre d'affaires
+        **A. Formulaire de Prédiction Individuelle**
 
-        7. **Répartition des dépenses par type de réseau**
-        - Données : Pourcentage des dépenses totales par type de réseau au mois 2
+        Sections du formulaire:
+        1. **Identité du client** :
+        - Informations personnelles (ID, sexe, âge, situation familiale)
+        - Localisation géographique (ville, code postal, coordonnées)
 
-        8. **Répartition des dépenses par service**
-        - Données : Décomposition du panier moyen entre services (SMS, Data, appels Onnet/Offnet)
+        2. **Services souscrits** :
+        - Ancienneté (en mois)
+        - Offre commerciale
+        - Services téléphoniques (détails des appels longue distance)
+        - Services internet (type, consommation data)
 
-        9. **Contribution des segments aux dépenses totales**
-        - Données : Valeur économique de chaque segment client
+        3. **Services optionnels** (si internet activé):
+        - Sécurité en ligne
+        - Backup cloud
+        - Support technique premium
+        - Services de streaming
 
-        10. **Migrations réseaux**
-            - Type : Matrice de flux (Sankey ou heatmap)
-            - Données : Migrations d'abonnements réseau (2G, 3G, Other) entre deux mois consécutifs
+        4. **Facturation** :
+        - Type de contrat
+        - Facturation dématérialisée
+        - Mode de paiement
+        - Détails des charges mensuelles/totales
 
-        ### Page de prédictions
+        Après soumission, l'application affiche:
+        - Probabilité de churn (en %)
+        - Recommandation (action requise ou simple surveillance)
+        - Détails techniques de la prédiction
 
-        1. **KPI principal**
-        - Nombre de clients prédits à haut risque (>60%)
+        **B. Prédiction par Lot (CSV)**
 
-        2. **Répartition des clients à haut risque par segment**
-        - Données : Proportion de chaque segment parmi les clients à haut risque
+        Fonctionnalités:
+        - Téléversement d'un fichier CSV contenant les données clients
+        - Prévisualisation des données
+        - Lancement de l'analyse batch
+        - Résultats téléchargeables incluant:
+          * Probabilités de churn pour chaque client
+          * Prédictions binaires (1=churn, 0=non-churn)
+        - Visualisation du taux de churn global
+        - Histogramme des probabilités
 
-        3. **Taux de clients prédits à haut risque par segment**
-        - Données : Pour chaque segment, proportion des clients à haut risque
+        ## Fonctionnalités Avancées
 
-        4. **Analyse des facteurs d'influence**
-        - Données : Variables influençant le plus la décision d'attrition
-        
-        ### Page de prédictions
-        
-        Cette page fournit concrètement les clients selon différents critères et 
-        en fonction du nombre que l'on veut observer. Les filtres sur la barre latérale 
-        permettent d'avoir des résultats plus fins selon les besoins.
-                """)
+        - **Filtres interactifs** : Permettent d'affiner les analyses
+        - **Design responsive** : Adapté à tous les écrans
+        - **Visualisations interactives** : Zoom, survol pour détails
+        - **Export des données** : Possibilité de télécharger les résultats
+
+        ## Conseils d'Utilisation
+
+        1. Pour l'analyse individuelle, complétez tous les champs obligatoires (marqués *)
+        2. Pour les analyses segmentées, utilisez les filtres latéraux
+        3. Exportez les résultats pour un reporting externe
+        4. Surveillez particulièrement les clients avec >60% de risque
+        5. Priorisez les actions sur les segments à haut risque identifiés
+        """)
         
       
 def write_metric_card(text, value, color1, color2):
