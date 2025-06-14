@@ -1,11 +1,4 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-from streamlit_option_menu import option_menu
-from function import *
-from css import *
-from exploration import *
-from churn_prediction import *
 
 # Configuration de la page------------------------------------------------------
 
@@ -14,7 +7,21 @@ st.set_page_config(
     page_icon="📞", 
     layout="wide",
     initial_sidebar_state="expanded"
-)
+) 
+
+
+
+import pandas as pd
+import numpy as np
+from streamlit_option_menu import option_menu
+from function import *
+from css import *
+from exploration import *
+from churn_prediction import *
+from dashboard import *
+from main import *
+
+
 
 # Application des styles=====================================================================================================
 styles_css()

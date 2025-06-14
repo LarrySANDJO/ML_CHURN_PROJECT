@@ -80,7 +80,7 @@ def exploration(df, full_df):
     
     with princ_col[0]:
         with stylable_container_function('0'):
-            st.markdown(f"""<div class="card-title" style="text-align: center; font-size: 22px; font-weight: bold; color:black">{get_text("Keys Rate")}</div> """,  unsafe_allow_html=True)
+            st.markdown(f"""<div class="card-title" style="text-align: center; font-size: 22px; font-weight: bold; color:#1914B3">{get_text("Keys Rate")}</div> """,  unsafe_allow_html=True)
             cols = st.columns(4)
             with cols[0]:
                 st_echarts(options=option_jauge("Pourcentage dans le revenu total", pourcent_revenu_selection), key="0")

@@ -9,13 +9,13 @@ import time
 from datetime import datetime
 import io
 
-# Configuration de la page
-st.set_page_config(
-    page_title="Dashboard Churn Telecom",
-    page_icon="📞",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# # Configuration de la page
+# st.set_page_config(
+#     page_title="Dashboard Churn Telecom",
+#     page_icon="📞",
+#     layout="wide",
+#     initial_sidebar_state="expanded"
+# )
 
 # Configuration de l'API
 API_BASE_URL = "https://projet-ml2-api.onrender.com/"
@@ -521,5 +521,5 @@ def show_analytics():
     with col4:
         st.metric("Précision du Modèle", "89.2%", delta="1.3%")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

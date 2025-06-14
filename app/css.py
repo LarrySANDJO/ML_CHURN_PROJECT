@@ -137,7 +137,139 @@ def styles_css():
             margin: 0;
             text-transform: uppercase;
         }
+        /* ============ RADIO BUTTONS ============ */
+        div[role="radiogroup"] > :first-child {
+            border-color: #1914B3 !important;
+            color: #1914B3 !important;
+        }
         
+        div[role="radiogroup"] > label > div:first-child {
+            background-color: #1914B3 !important;
+        }
+        
+        /* ============ NUMBER INPUT ============ */
+        input[type="number"] {
+            border-color: #1914B3 !important;
+            color: #1914B3 !important;
+        }
+        
+        /* ============ SELECTBOX ============ */
+        div[data-baseweb="select"] > div {
+            border-color: #1914B3 !important;
+        }
+        
+        div[data-baseweb="select"] svg {
+            color: #1914B3 !important;
+        }
+        
+        /* ============ SLIDER ============ */
+        div[data-testid="stSlider"] > div > div > div > div {
+            background-color: #1914B3 !important;
+        }
+        
+        div[data-testid="stSlider"] > div > div > div > div[role="slider"] {
+            box-shadow: 0 0 0 1px #1914B3 !important;
+        }
+        
+        /* ============ TEXT INPUT ============ */
+        input[type="text"], input[type="password"] {
+            border-color: #1914B3 !important;
+            color: #1914B3 !important;
+        }
+        
+        /* ============ ÉTATS COMMUNS (HOVER/FOCUS) ============ */
+        div[role="radiogroup"] > label:hover > div:first-child,
+        input[type="number"]:focus,
+        div[data-baseweb="select"]:hover > div,
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            box-shadow: 0 0 0 1px #1914B3 !important;
+            border-color: #1914B3 !important;
+        }
+        
+        /* ============ LABELS COMMUNS ============ */
+        .stRadio > label,
+        .stNumberInput > label,
+        .stSelectbox > label,
+        .stSlider > label,
+        .stTextInput > label {
+            color: #1914B3 !important;
+            font-weight: 500 !important;
+        }
+        
+        /* ============ STREAMLIT SPÉCIFIQUE ============ */
+        .stNumberInput > div > div > input,
+        .stTextInput > div > div > input {
+            color: #1914B3 !important;
+        }
+        
+        .stSelectbox > div > div > div > div {
+            color: #1914B3 !important;
+        }
+        :root {
+        --slider-primary: #1914B3;
+        --slider-inactive: #E0E0E0;
+        --slider-handle: white;
+        }
+        
+        div[data-testid="stSlider"] > div > div > div > div {
+            background-color: var(--slider-primary) !important;
+        }
+        
+        div[data-testid="stSlider"] > div > div > div > div[role="slider"] {
+            background-color: var(--slider-primary) !important;
+            border-color: var(--slider-handle) !important;
+        }
+        
+        div[data-testid="stSlider"] > div > div > div > div > div {
+            background-color: var(--slider-inactive) !important;
+        }
+        
+            /* ============ HEADERS ============ */
+        h1, h2, h3, h4, h5, h6 {
+            color: #1914B3 !important;
+        }
+        
+        /* Cible spécifiquement les composants Streamlit */
+        .stHeader, .stSubheader, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+            color: #1914B3 !important;
+            font-family: 'Arial Black', sans-serif !important;
+        }
+        
+        /* ============ BOUTON SUBMIT ============ */
+        div.stButton > button:first-child {
+            background-color: #1914B3 !important;
+            color: white !important;
+            border-radius: 8px !important;
+            border: 1px solid #1914B3 !important;
+            font-weight: bold !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        div.stButton > button:first-child:hover {
+            background-color: #100A8C !important;
+            border-color: #100A8C !important;
+            transform: scale(1.02) !important;
+        }
+        
+        div.stButton > button:first-child:focus {
+            box-shadow: 0 0 0 0.2rem rgba(25, 20, 179, 0.5) !important;
+        }
+        
+        /* ============ FORMULAIRE ============ */
+        div.stForm {
+            border: 1px solid rgba(25, 20, 179, 0.2) !important;
+            border-radius: 10px !important;
+            padding: 1.5rem !important;
+            background-color: rgba(25, 20, 179, 0.03) !important;
+        }
+        
+        /* Style pour le bouton dans un formulaire */
+        div.stForm form > div:last-child > div > button {
+            width: 100% !important;
+            padding: 0.5rem !important;
+            font-size: 1.1rem !important;
+        }
             </style>
         """,
         unsafe_allow_html=True

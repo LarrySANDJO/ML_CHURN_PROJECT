@@ -836,7 +836,7 @@ def preprocess_text(text):
     words = [lemmatizer.lemmatize(w) for w in text_clean.split() if w not in stop_words and len(w) > 2]
     return " ".join(words)
 
-def generate_enhanced_wordcloud(filtered_df):
+def generate_enhanced_wordcloud(filtered_df, height=500):
     # Filtrer et prétraiter les données
     churn_reasons = filtered_df[filtered_df['Customer Status'] == 'Churned']['Churn Reason'].dropna()
     
@@ -875,6 +875,7 @@ def generate_enhanced_wordcloud(filtered_df):
     """, unsafe_allow_html=True)
     
     fig, ax = plt.subplots(figsize=(4, 2))
+
     ax.imshow(wordcloud, interpolation='bilinear')
     ax.axis("off")
     
