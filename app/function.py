@@ -8,6 +8,12 @@ from streamlit_extras.stylable_container import stylable_container
 import plotly.express as px
 import folium
 from folium.plugins import MarkerCluster, Fullscreen
+from wordcloud import WordCloud
+import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
 
 @st.cache_resource
 def get_text(key):
@@ -17,7 +23,7 @@ def get_text(key):
         return key
     return st.session_state.get_text(key)
 
-@st.cache_resource
+
 def afficher_guide_utilisateur():
     # CSS personnalisé pour l'expander
     
@@ -120,7 +126,7 @@ def afficher_guide_utilisateur():
         permettent d'avoir des résultats plus fins selon les besoins.
                 """)
         
-@st.cache_resource       
+      
 def write_metric_card(text, value, color1, color2):
     st.markdown(f"""
     <div class="metric-box " style="background: linear-gradient(135deg, white, white)";>
@@ -129,7 +135,7 @@ def write_metric_card(text, value, color1, color2):
     </div>
     """, unsafe_allow_html=True)
     
-@st.cache_resource
+
 def option_jauge(text, value):
     return {
         "tooltip": {"formatter": '{a} <br/>{b} : {c}%'},
@@ -177,7 +183,7 @@ def option_jauge(text, value):
         }
     
 # Stylable
-@st.cache_resource
+
 def stylable_container_function(cle):
     return stylable_container(
                     key=cle,
@@ -202,7 +208,7 @@ def stylable_container_function(cle):
                     """ )
     
 # Répartition genre
-@st.cache_resource
+
 def plot_sex_donut_plotly(df, emoji="👫", titre_graphique="", height=500):
     # Comptage
     gender_counts = df['Gender'].value_counts()
@@ -260,7 +266,6 @@ def plot_sex_donut_plotly(df, emoji="👫", titre_graphique="", height=500):
 
 
 # Pyramide des ages 
-@st.cache_resource
 def plot_age_pyramid(df, age_col='Age', gender_col='Gender', bin_size=5, height=500):
     # Vérifier les valeurs uniques dans la colonne de genre
     unique_genders = df[gender_col].dropna().unique()
@@ -315,7 +320,7 @@ def plot_age_pyramid(df, age_col='Age', gender_col='Gender', bin_size=5, height=
 
     st.plotly_chart(fig, use_container_width=True)
 
-@st.cache_resource   
+   
 def plot_dependents_horizontal_percent(df, dependents_col='Number of Dependents', height=500):
     # Calcul des pourcentages
     dependents_pct = (df[dependents_col].value_counts(normalize=True)
@@ -380,7 +385,7 @@ def plot_dependents_horizontal_percent(df, dependents_col='Number of Dependents'
     
     return fig
 
-@st.cache_resource
+
 def plot_married_donut_plotly(df, emoji="💍", titre_graphique="", height=500):
     # Comptage
     married_counts = df['Married'].value_counts()
@@ -435,7 +440,7 @@ def plot_married_donut_plotly(df, emoji="💍", titre_graphique="", height=500):
     
     return fig
 
-@st.cache_resource
+
 def plot_contract_distribution(df, contract_col='Contract', height=500):
     # Préparation des données
     contract_data = df[contract_col].value_counts(normalize=True).mul(100).round(1).reset_index()
@@ -501,10 +506,8 @@ def plot_contract_distribution(df, contract_col='Contract', height=500):
     
     return fig
 
-import plotly.express as px
-import pandas as pd
 
-@st.cache_resource
+
 def plot_referrals_distribution(df, referrals_col='Number of Referrals', height=500):
     # Préparation des données
     referrals = df[referrals_col].value_counts().sort_index().reset_index()
@@ -574,7 +577,7 @@ def plot_referrals_distribution(df, referrals_col='Number of Referrals', height=
     
     return fig
 
-@st.cache_resource
+
 def plot_payment_methods(df, payment_col='Payment Method', height=500):
     # Préparation des données
     payment_data = df[payment_col].value_counts(normalize=True).mul(100).round(1).reset_index()
@@ -650,7 +653,6 @@ def plot_payment_methods(df, payment_col='Payment Method', height=500):
     
     return fig
 
-@st.cache_resource
 def plot_offer_distribution(df, offer_col='Offer', height=500):
     # Préparation des données
     offer_data = df[offer_col].value_counts().reset_index()
@@ -736,7 +738,6 @@ def plot_offer_distribution(df, offer_col='Offer', height=500):
     return fig
 
 
-@st.cache_resource
 def create_folium_map(df):
     # Filtrer les données valides
     valid_df = df.dropna(subset=['Latitude', 'Longitude']).copy()
@@ -806,3 +807,75 @@ def create_folium_map(df):
     folium.LayerControl(collapsed=False).add_to(m)
     
     return m
+
+
+
+def preprocess_text(text):
+    if not isinstance(text, str):
+        return ""
+    # Nettoyage du texte
+    text_clean = re.sub(r'[^a-z\s]', '', text.lower())
+    # Lemmatisation et suppression stopwords
+    words = [lemmatizer.lemmatize(w) for w in text_clean.split() if w not in stop_words and len(w) > 2]
+    return " ".join(words)
+
+# Téléchargement des ressources NLP
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+# Configuration des outils NLP
+stop_words = set(stopwords.words('english'))
+lemmatizer = WordNetLemmatizer()
+
+def preprocess_text(text):
+    if not isinstance(text, str):
+        return ""
+    # Nettoyage du texte
+    text_clean = re.sub(r'[^a-z\s]', '', text.lower())
+    # Lemmatisation et suppression stopwords
+    words = [lemmatizer.lemmatize(w) for w in text_clean.split() if w not in stop_words and len(w) > 2]
+    return " ".join(words)
+
+def generate_enhanced_wordcloud(filtered_df):
+    # Filtrer et prétraiter les données
+    churn_reasons = filtered_df[filtered_df['Customer Status'] == 'Churned']['Churn Reason'].dropna()
+    
+    if churn_reasons.empty:
+        st.warning("Aucune donnée de churn disponible")
+        return
+    
+    # Prétraitement du texte
+    processed_text = " ".join(churn_reasons.apply(preprocess_text))
+    
+    if not processed_text.strip():
+        st.warning("Aucun terme significatif après prétraitement")
+        return
+    
+    # Configuration du WordCloud
+    wordcloud = WordCloud(
+        width=1200,
+        height=600,
+        background_color='white',
+        colormap='viridis',
+        max_words=150,
+        min_font_size=8,
+        max_font_size=120,
+        collocations=False,
+        prefer_horizontal=0.8,
+        margin=0,
+        scale=2,
+        random_state=42
+    ).generate(processed_text)
+    
+    # Affichage Streamlit
+    st.markdown("""
+    <h2 style='text-align: center; margin-bottom: 20px; color: #1914B3'>
+        Analyse Lexicale des Raisons de Churn
+    </h2>
+    """, unsafe_allow_html=True)
+    
+    fig, ax = plt.subplots(figsize=(4, 2))
+    ax.imshow(wordcloud, interpolation='bilinear')
+    ax.axis("off")
+    
+    st.pyplot(fig, use_container_width=True)

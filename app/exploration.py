@@ -118,6 +118,12 @@ def exploration(df, full_df):
     with cols2[3]:
         with stylable_container_function('8'):
             st.plotly_chart(plot_offer_distribution(df), use_container_width=True)
+    
+    cols3 = st.columns(1)
+    with cols3[0]:
+        with stylable_container_function('9'):
+            # Utilisation dans votre app
+            generate_enhanced_wordcloud(df)
           
           
           
