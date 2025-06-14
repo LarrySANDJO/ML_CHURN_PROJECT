@@ -111,11 +111,11 @@ Le modèle XGBoost a été sélectionné pour ses performances :
 
 | Métrique     | Score     |
 |--------------|-----------|
-| Accuracy     | 89.2 %    |
-| Precision    | 84.5 %    |
-| Recall       | 78.3 %    |
-| F1-score     | 81.3 %    |
-| ROC-AUC      | 91.7 %    |
+| Accuracy     | 84 %    |
+| Precision    | 68 %    |
+| Recall       | 78 %    |
+| F1-score     | 72 %    |
+| ROC-AUC      | 91 %    |
 
 
 ## 🖥️ Application et API
