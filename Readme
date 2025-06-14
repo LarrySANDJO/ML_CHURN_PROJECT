@@ -1,0 +1,158 @@
+# 📊 ML_CHURN_PROJECT — Prédiction de la résiliation client avec le Machine Learning
+
+### 📌 Contexte
+
+Ce projet a été réalisé dans le cadre d’un travail académique à l’ENSAE de Dakar, dans une optique de mise en pratique des compétences en Data Science et Machine Learning sur une problématique métier réelle : la **prédiction de la résiliation client (churn)** dans un contexte B2C. Il s'inscrit dans la dynamique Business Intelligence et vise à fournir des outils concrets et exploitables pour l’anticipation du départ des clients.
+
+---
+
+## 📑 Table des matières
+
+- [🎯 Objectifs](#-objectifs)
+- [🧠 Méthodologie](#-méthodologie)
+- [🚀 Lancement du projet](#-lancement-du-projet)
+- [📊 Résultats](#-résultats)
+- [🖥️ Application & API](#-application--api)
+- [🧑‍💻 Auteur](#-auteur)
+- [📝 Licence](#-licence)
+
+---
+
+## 🎯 Objectifs
+
+La problématique centrale de ce projet est de savoir s’il est possible, à partir des données disponibles sur les clients, de **prédire leur probabilité de résiliation**. Cela permettrait à une entreprise de télécommunications (ou tout autre service par abonnement) de mieux cibler ses actions de fidélisation.
+
+L’objectif opérationnel est double :
+
+- **Modéliser le risque de churn** en exploitant des données clients structurées (profil, contrat, usage, support, etc.).
+- **Fournir des outils accessibles** (API et application web) aux utilisateurs non techniques, afin qu’ils puissent exploiter facilement les prédictions dans une logique de pilotage.
+
+---
+
+## 🧠 Méthodologie
+
+Le projet suit une démarche rigoureuse et structurée en cinq étapes majeures :
+
+### 🔎 Exploration des données (EDA)
+
+Analyse initiale pour comprendre la structure des données, visualiser les corrélations, détecter les valeurs aberrantes ou les classes déséquilibrées. Cela a permis d’identifier les variables influentes dans le churn (ex. : type de contrat, durée, services techniques).
+
+### 🧹 Prétraitement
+
+- Encodage des variables catégorielles (Label Encoding, One-Hot Encoding)
+- Traitement des valeurs manquantes
+- Normalisation des variables numériques
+- **Rééquilibrage des classes** avec la méthode SMOTE (over-sampling des churners)
+
+### 🤖 Modélisation
+
+Plusieurs modèles ont été testés et comparés :
+
+- Régression Logistique
+- Random Forest
+- **XGBoost** (modèle final retenu pour sa précision et robustesse)
+
+Les modèles ont été évalués via une **validation croisée** (K-Fold) avec ajustement des hyperparamètres via **GridSearchCV**.
+
+### 🧮 Évaluation
+
+Les performances ont été mesurées à l’aide de :
+
+- F1-score, Accuracy, ROC-AUC
+- Matrice de confusion
+- Interprétation des résultats via les **SHAP values** (explicabilité locale et globale)
+
+### ⚙️ Déploiement
+
+Deux outils ont été conçus pour rendre le modèle exploitable :
+
+- Une **API REST** avec FastAPI
+- Une **interface utilisateur** via Streamlit (UI simple et interactive)
+
+---
+
+## 🚀 Lancement du projet
+
+### 1. Cloner le dépôt
+
+```bash
+git clone https://github.com/LarrySANDJO/ML_CHURN_PROJECT.git
+cd ML_CHURN_PROJECT
+```
+
+### 2. Créer et activer un environnement virtuel
+
+```bash
+python -m venv venv
+source venv/bin/activate     # Linux / MacOS
+venv\Scripts\activate        # Windows
+```
+
+### 3. Installer les dépendances
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Entraîner le modèle
+
+```bash
+python src/training/train_model.py
+```
+
+### 5. Lancer l'API FastAPI
+
+```bash
+uvicorn src.inference.main:app --reload
+```
+
+👉 Accès à la documentation interactive de l’API : [http://localhost:8000/docs](http://localhost:8000/docs)
+
+### 6. Lancer l'application Streamlit
+
+```bash
+streamlit run app/main.py
+```
+
+---
+
+## 📊 Résultats
+
+Le modèle XGBoost a été sélectionné pour ses performances :
+
+| Métrique     | Score     |
+|--------------|-----------|
+| Accuracy     | 89.2 %    |
+| Precision    | 84.5 %    |
+| Recall       | 78.3 %    |
+| F1-score     | 81.3 %    |
+| ROC-AUC      | 91.7 %    |
+
+### 🧠 Interprétation
+
+Les SHAP values ont mis en lumière les variables les plus déterminantes : le type de contrat, la durée (tenure), le support technique, les services d’internet, etc.
+
+---
+
+## 🖥️ Application & API
+
+L’application Streamlit permet aux utilisateurs de visualiser des indicateurs, soumettre des cas client et recevoir une prédiction instantanée de churn avec un score de probabilité.
+
+L’API FastAPI permet l’intégration dans des outils tiers ou pipelines automatisés.
+
+- 🌐 **Lien vers l’application Streamlit** : *à insérer ici*  
+- ⚙️ **Lien vers l’API FastAPI déployée** : *à insérer ici*
+
+---
+
+## 🧑‍💻 Auteur
+
+**Larry SANDJO**  
+Élève Ingénieur Statisticien Économiste — ENSAE Dakar (ISE2 2024-2025)  
+📧 Contact : [ton.email@example.com]  
+
+---
+
+## 📝 Licence
+
+Ce projet est distribué sous licence **MIT**. Voir le fichier [LICENSE](./LICENSE) pour plus de détails.
