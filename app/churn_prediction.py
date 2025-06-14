@@ -8,7 +8,7 @@ from streamlit_extras.colored_header import colored_header
 from dashboard import *
 from main import *
 
-
+@st.cache_data
 def churn_prediction(df):
     df = df
 
