@@ -13,7 +13,7 @@ Il s'inscrit dans la dynamique Business Intelligence et vise à fournir des outi
 - [🧠 Méthodologie](#-méthodologie)
 - [🚀 Lancement du projet](#-lancement-du-projet)
 - [📊 Résultats](#-résultats)
-- [🖥️ Application & API](#-application--api)
+- [🖥️ Application et API](#-application-api)
 - [🧑‍💻 Auteur](#-auteur)
 - [📝 Licence](#-licence)
 
@@ -118,7 +118,7 @@ Le modèle XGBoost a été sélectionné pour ses performances :
 | ROC-AUC      | 91.7 %    |
 
 
-## 🖥️ Application & API
+## 🖥️ Application et API
 
 L’application Streamlit permet aux utilisateurs de visualiser des indicateurs, soumettre des cas client et recevoir une prédiction instantanée de churn avec un score de probabilité.
 
