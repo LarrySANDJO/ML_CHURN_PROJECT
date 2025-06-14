@@ -2,7 +2,8 @@
 
 ### 📌 Contexte
 
-Ce projet a été réalisé dans le cadre d’un travail académique à l’ENSAE de Dakar, dans une optique de mise en pratique des compétences en Data Science et Machine Learning sur une problématique métier réelle : la **prédiction de la résiliation client (churn)** dans un contexte B2C. Il s'inscrit dans la dynamique Business Intelligence et vise à fournir des outils concrets et exploitables pour l’anticipation du départ des clients.
+Ce projet a été réalisé dans le cadre d’un travail académique à l’ENSAE de Dakar, dans une optique de mise en pratique des compétences en Data Science et Machine Learning sur une problématique métier réelle : la **prédiction de la résiliation client (churn)**. 
+Il s'inscrit dans la dynamique Business Intelligence et vise à fournir des outils concrets et exploitables pour l’anticipation du départ des clients.
 
 ---
 
@@ -35,24 +36,26 @@ Le projet suit une démarche rigoureuse et structurée en cinq étapes majeures 
 
 ### 🔎 Exploration des données (EDA)
 
-Analyse initiale pour comprendre la structure des données, visualiser les corrélations, détecter les valeurs aberrantes ou les classes déséquilibrées. Cela a permis d’identifier les variables influentes dans le churn (ex. : type de contrat, durée, services techniques).
+Analyse initiale pour comprendre la structure des données, visualiser les corrélations, détecter les valeurs aberrantes ou les classes déséquilibrées. Cela a permis d’identifier les variables influentes dans le churn.
 
 ### 🧹 Prétraitement
 
-- Encodage des variables catégorielles (Label Encoding, One-Hot Encoding)
 - Traitement des valeurs manquantes
+- Encodage des variables catégorielles (Label Encoding, One-Hot Encoding)
 - Normalisation des variables numériques
-- **Rééquilibrage des classes** avec la méthode SMOTE (over-sampling des churners)
 
 ### 🤖 Modélisation
 
 Plusieurs modèles ont été testés et comparés :
 
 - Régression Logistique
+- SVM
+- LigthGBM
 - Random Forest
+- etc.
 - **XGBoost** (modèle final retenu pour sa précision et robustesse)
 
-Les modèles ont été évalués via une **validation croisée** (K-Fold) avec ajustement des hyperparamètres via **GridSearchCV**.
+Les modèles ont été évalués via une **validation croisée** (K-Fold) avec ajustement des hyperparamètres via **GridSearchCV** et une optimisation du seuil de prédiction
 
 ### 🧮 Évaluation
 
@@ -60,14 +63,13 @@ Les performances ont été mesurées à l’aide de :
 
 - F1-score, Accuracy, ROC-AUC
 - Matrice de confusion
-- Interprétation des résultats via les **SHAP values** (explicabilité locale et globale)
 
 ### ⚙️ Déploiement
 
 Deux outils ont été conçus pour rendre le modèle exploitable :
 
 - Une **API REST** avec FastAPI
-- Une **interface utilisateur** via Streamlit (UI simple et interactive)
+- Une **interface utilisateur** via Streamlit
 
 ---
 
@@ -94,24 +96,11 @@ venv\Scripts\activate        # Windows
 pip install -r requirements.txt
 ```
 
-### 4. Entraîner le modèle
+
+### 4. Lancer l'application Streamlit
 
 ```bash
-python src/training/train_model.py
-```
-
-### 5. Lancer l'API FastAPI
-
-```bash
-uvicorn src.inference.main:app --reload
-```
-
-👉 Accès à la documentation interactive de l’API : [http://localhost:8000/docs](http://localhost:8000/docs)
-
-### 6. Lancer l'application Streamlit
-
-```bash
-streamlit run app/main.py
+streamlit run app/app.py
 ```
 
 ---
@@ -128,11 +117,6 @@ Le modèle XGBoost a été sélectionné pour ses performances :
 | F1-score     | 81.3 %    |
 | ROC-AUC      | 91.7 %    |
 
-### 🧠 Interprétation
-
-Les SHAP values ont mis en lumière les variables les plus déterminantes : le type de contrat, la durée (tenure), le support technique, les services d’internet, etc.
-
----
 
 ## 🖥️ Application & API
 
@@ -140,16 +124,19 @@ L’application Streamlit permet aux utilisateurs de visualiser des indicateurs,
 
 L’API FastAPI permet l’intégration dans des outils tiers ou pipelines automatisés.
 
-- 🌐 **Lien vers l’application Streamlit** : *à insérer ici*  
-- ⚙️ **Lien vers l’API FastAPI déployée** : *à insérer ici*
+- 🌐 **Lien vers l’application Streamlit** : *https://californiatelecom.streamlit.app/*  
+- ⚙️ **Lien vers l’API FastAPI déployée** : *https://projet-ml2-api.onrender.com/docs*
 
 ---
 
 ## 🧑‍💻 Auteur
 
+**Josette MATANG**
+**Kpakou N'MOUNENE**
+**Fama DIOP**
 **Larry SANDJO**  
-Élève Ingénieur Statisticien Économiste — ENSAE Dakar (ISE2 2024-2025)  
-📧 Contact : [ton.email@example.com]  
+*Élèves Ingénieurs Statisticiens Économistes — ENSAE Dakar (ISE2 2024-2025)*
+📧 Contact : [larrysandjo337@gmail.com]  
 
 ---
 
