@@ -755,7 +755,7 @@ def plot_offer_distribution(df, offer_col='Offer', height=500):
     
     return fig
 
-
+@st.cache_resource
 def create_folium_map(df):
     # Filtrer les données valides
     valid_df = df.dropna(subset=['Latitude', 'Longitude']).copy()
