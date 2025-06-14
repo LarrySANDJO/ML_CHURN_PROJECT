@@ -8,6 +8,8 @@ from streamlit_extras.colored_header import colored_header
 from dashboard import *
 from main import *
 
+API_BASE_URL = "https://projet-ml2-api.onrender.com/"
+
 @st.cache_data
 def upload_csv_for_prediction(file_data):
     """Upload CSV pour prédictions en lot"""
