@@ -307,7 +307,7 @@ def churn_prediction(df):
     show_prediction_form(form_data)
                         
     def show_batch_prediction():
-        st.header("📊 Prédiction par lot (CSV)")
+        st.header("Prédiction par lot (CSV)")
         
         # Section de téléchargement
         with st.expander("ℹ️ Instructions", expanded=True):
