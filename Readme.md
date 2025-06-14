@@ -132,8 +132,11 @@ L’API FastAPI permet l’intégration dans des outils tiers ou pipelines autom
 ## 🧑‍💻 Auteur
 
 **Josette MATANG**
+
 **Kpakou N'MOUNENE**
+
 **Fama DIOP**
+
 **Larry SANDJO**  
 *Élèves Ingénieurs Statisticiens Économistes — ENSAE Dakar (ISE2 2024-2025)*
 📧 Contact : [larrysandjo337@gmail.com]  
