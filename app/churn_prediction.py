@@ -8,20 +8,7 @@ from streamlit_extras.colored_header import colored_header
 from dashboard import *
 from main import *
 
-API_BASE_URL = "https://projet-ml2-api.onrender.com/"
 
-@st.cache_data
-def upload_csv_for_prediction(file_data):
-    """Upload CSV pour prédictions en lot"""
-    try:
-        files = {"file": ("data.csv", file_data, "text/csv")}
-        response = requests.post(f"{API_BASE_URL}/predict/csv", files=files)
-        if response.status_code == 200:
-            return response.json(), None
-        else:
-            return None, f"Erreur API: {response.status_code}"
-    except Exception as e:
-        return None, f"Erreur de connexion: {str(e)}"
 
 def churn_prediction(df):
     df = df
