@@ -10,6 +10,7 @@ from folium.plugins import MarkerCluster
 from streamlit_folium import folium_static
 
 
+@st.cache_resource
 def exploration(df, full_df):
     df = df
     df_selection = df
