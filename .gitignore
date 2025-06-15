@@ -1,3 +1,6 @@
 ml2env/
 MODELES/mlruns/ 
 mlruns/
+venv/
+ML_env/
+_pycache_/
