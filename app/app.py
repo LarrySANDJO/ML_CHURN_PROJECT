@@ -93,7 +93,7 @@ def main():
     st.markdown(
             f"""
             <div class="metric-box" style="background-color: white; height : 120px">
-                <div class="metric-title" style="text-align: center; font-size: 60px; font-weight: bold; color: #1914B3;">{get_text("CHURN ANALYSYS DASHBOARD")}
+                <div class="metric-title" style="text-align: center; font-size: 60px; font-weight: bold; color: #1914B3;">{get_text("CHURN ANALYSIS DASHBOARD")}
                         </div>
     </div>
             
