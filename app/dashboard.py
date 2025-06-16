@@ -84,15 +84,15 @@ def predict_single_customer(customer_data):
     except Exception as e:
         return None, f"Erreur de connexion: {str(e)}"
 
-def upload_csv_for_prediction(file_data):
+def upload_csv_for_prediction(uploaded_file):
     """Upload CSV pour prédictions en lot"""
     try:
-        files = {"file": ("data.csv", file_data, "text/csv")}
+        files = {"file": (uploaded_file.name, uploaded_file, "text/csv")}
         response = requests.post(f"{API_BASE_URL}/predict/csv", files=files)
         if response.status_code == 200:
             return response.json(), None
         else:
-            return None, f"Erreur API: {response.status_code}"
+            return None, f"Erreur API: {response.status_code} - {response.text}"
     except Exception as e:
         return None, f"Erreur de connexion: {str(e)}"
 
