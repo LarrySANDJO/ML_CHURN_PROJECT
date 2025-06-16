@@ -195,7 +195,7 @@ def churn_prediction(df):
         if form_data is not None:
             # Vérification de l'API
             if not check_api_status():
-                st.error("🚨 L'API de prédiction n'est pas disponible")
+                st.error("🚨 L'API de prédiction n'est pas disponible, veuillez ouvrir l'api 'https://projet-ml2-api.onrender.com'")
                 return
             
             # Prédiction
@@ -325,7 +325,7 @@ def churn_prediction(df):
         if uploaded_file is not None:
             # Vérification API
             if not check_api_status():
-                st.error("🚨 L'API de prédiction n'est pas disponible")
+                st.error("🚨 L'API de prédiction n'est pas disponible, veuillez ouvrir l'api 'https://projet-ml2-api.onrender.com'")
                 return
             
             # Prévisualisation
