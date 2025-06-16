@@ -346,7 +346,7 @@ def churn_prediction(df):
                 # Bouton de lancement
                 if st.button("🚀 Lancer l'analyse prédictive", type="primary"):
                     with st.spinner(f"🔍 Analyse de {len(df_preview)} clients en cours..."):
-                        results, error = upload_csv_for_prediction(uploaded_file.getvalue())
+                        results, error = upload_csv_for_prediction(uploaded_file)
                         
                         if error:
                             st.error(f"❌ {error}")
