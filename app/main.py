@@ -356,7 +356,14 @@ async def predict_csv(file: UploadFile = File(...)):
         
         # Lire le fichier CSV
         content = await file.read()
-        df = pd.read_csv(io.StringIO(content.decode('utf-8')))
+        if not content.strip():
+            raise HTTPException(status_code=400, detail="Fichier vide ou non lisible")
+        
+        try:
+            df = pd.read_csv(io.StringIO(content.decode('utf-8')))
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Erreur lors de la lecture CSV : {e}")
+
         
         # Valider les colonnes
         validation = predictor_api.validate_csv_columns(df)
