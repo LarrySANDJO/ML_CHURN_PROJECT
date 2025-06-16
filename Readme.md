@@ -124,8 +124,9 @@ L’application Streamlit permet aux utilisateurs de visualiser des indicateurs,
 
 L’API FastAPI permet l’intégration dans des outils tiers ou pipelines automatisés.
 
+- ⚙️ **Lien vers l’API FastAPI déployée** : *https://projet-ml2-api.onrender.com/docs* (lancer d'abord l'api avant le dashboard pour pouvoir faire des prédictions)
 - 🌐 **Lien vers l’application Streamlit** : *https://californiatelecom.streamlit.app/*  
-- ⚙️ **Lien vers l’API FastAPI déployée** : *https://projet-ml2-api.onrender.com/docs*
+
 
 ---
 
