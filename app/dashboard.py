@@ -87,7 +87,8 @@ def predict_single_customer(customer_data):
 def upload_csv_for_prediction(uploaded_file):
     """Upload CSV pour prédictions en lot"""
     try:
-        files = {"file": (uploaded_file.name, uploaded_file, "text/csv")}
+        file_content = uploaded_file.read()
+        files = {"file": (uploaded_file.name, file_content, "text/csv")}
         response = requests.post(f"{API_BASE_URL}/predict/csv", files=files)
         if response.status_code == 200:
             return response.json(), None
